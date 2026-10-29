@@ -955,6 +955,81 @@ button {
   fill: #fff;
 }
 
+/* ---------- Lead form ---------- */
+.lead-block {
+  margin-top: 48px;
+  padding: 28px 22px;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  gap: 24px;
+}
+.lead-text h3 {
+  color: var(--color-dark);
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+.lead-text p {
+  color: var(--color-text-light);
+}
+.lead-form {
+  display: grid;
+  gap: 14px;
+}
+.lead-field {
+  display: grid;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+.lead-field input {
+  font: inherit;
+  font-weight: 400;
+  padding: 14px 16px;
+  border: 2px solid #d7e1e8;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-dark);
+}
+.lead-field input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+.lead-field input.invalid {
+  border-color: #d64545;
+}
+.lead-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.lead-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.lead-status {
+  min-height: 1.2em;
+  font-size: 0.95rem;
+}
+.lead-status.ok {
+  color: #1da851;
+}
+.lead-status.err {
+  color: #d64545;
+}
+@media (min-width: 900px) {
+  .lead-block {
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    padding: 40px;
+    gap: 40px;
+  }
+}
+
 /* ---------- Program details modal ---------- */
 .modal-overlay {
   position: fixed;

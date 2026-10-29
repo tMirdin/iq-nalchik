@@ -161,6 +161,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  /* ---------- Lead form -> Google Sheets (Apps Script) ---------- */
+  // Вставьте сюда URL веб-приложения Apps Script (заканчивается на /exec)
+  const LEAD_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbwSLKEvjcgUpMXUGxWZkiYDrY_oLAJh5aqSx2HFBof-gt1ZxTDt6x7qC8m55CUeVPzK/exec";
+  const leadForm = document.getElementById("leadForm");
+  const leadStatus = document.getElementById("leadStatus");
+
+  if (leadForm) {
+    leadForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nameInput = leadForm.elements.name;
+      const phoneInput = leadForm.elements.phone;
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const phoneOk = phone.replace(/\D/g, "").length >= 10;
+
+      nameInput.classList.toggle("invalid", !name);
+      phoneInput.classList.toggle("invalid", !phoneOk);
+      leadStatus.className = "lead-status";
+      if (!name || !phoneOk) {
+        leadStatus.classList.add("err");
+        leadStatus.textContent = "Укажите имя и корректный номер телефона.";
+        return;
+      }
+
+      const btn = leadForm.querySelector("button[type=submit]");
+      btn.disabled = true;
+      leadStatus.textContent = "Отправляем…";
+      try {
+        if (!LEAD_ENDPOINT) throw new Error("endpoint not configured");
+        await fetch(LEAD_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          body: new URLSearchParams(new FormData(leadForm)),
+        });
+        leadForm.reset();
+        leadStatus.classList.add("ok");
+        leadStatus.textContent = "Спасибо! Мы скоро свяжемся с вами.";
+      } catch (err) {
+        leadStatus.classList.add("err");
+        leadStatus.textContent =
+          "Не удалось отправить. Напишите нам в WhatsApp или MAX.";
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+
   /* ---------- Footer year ---------- */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
